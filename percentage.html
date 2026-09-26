@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramsey Percentage Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 22px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 27px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 14px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 500px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+
+    .card h2 {
+      color: #2563eb;
+      font-size: 19px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 13px;
+      background: white;
+      color: #222;
+      transition: background 0.3s, color 0.3s, border 0.3s;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .result {
+      margin-top: 15px;
+      padding: 14px;
+      background: #f1f5ff;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #2563eb;
+      display: none;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* DARK MODE */
+    body.dark {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    body.dark .card {
+      background: #1f2937;
+      color: #f9fafb;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    body.dark .card h2 {
+      color: #60a5fa;
+    }
+
+    body.dark input {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #374151;
+    }
+
+    body.dark input::placeholder {
+      color: #9ca3af;
+    }
+
+    body.dark .result {
+      background: #273449;
+      color: #60a5fa;
+    }
+
+    body.dark .back {
+      color: #60a5fa;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>📊 Ramsey Percentage Calculator</h1>
+  <p>Calculate percentages quickly and easily</p>
+</header>
+
+<main class="container">
+
+  <div class="card">
+    <h2>1️⃣ Percentage of a Number</h2>
+
+    <label for="percent1">Percentage (%)</label>
+    <input type="number" id="percent1" placeholder="e.g. 20">
+
+    <label for="number1">Number</label>
+    <input type="number" id="number1" placeholder="e.g. 500">
+
+    <button onclick="calculatePercentage()">Calculate</button>
+
+    <div id="result1" class="result"></div>
+  </div>
+
+
+  <div class="card">
+    <h2>2️⃣ What Percentage?</h2>
+
+    <label for="part">Part</label>
+    <input type="number" id="part" placeholder="e.g. 500">
+
+    <label for="whole">Whole</label>
+    <input type="number" id="whole" placeholder="e.g. 2000">
+
+    <button onclick="findPercentage()">Calculate</button>
+
+    <div id="result2" class="result"></div>
+  </div>
+
+
+  <div class="card">
+    <h2>3️⃣ Percentage Increase</h2>
+
+    <label for="increaseNumber">Original Number</label>
+    <input type="number" id="increaseNumber" placeholder="e.g. 500">
+
+    <label for="increasePercent">Increase (%)</label>
+    <input type="number" id="increasePercent" placeholder="e.g. 20">
+
+    <button onclick="calculateIncrease()">Calculate</button>
+
+    <div id="result3" class="result"></div>
+  </div>
+
+
+  <div class="card">
+    <h2>4️⃣ Percentage Decrease</h2>
+
+    <label for="decreaseNumber">Original Number</label>
+    <input type="number" id="decreaseNumber" placeholder="e.g. 500">
+
+    <label for="decreasePercent">Decrease (%)</label>
+    <input type="number" id="decreasePercent" placeholder="e.g. 20">
+
+    <button onclick="calculateDecrease()">Calculate</button>
+
+    <div id="result4" class="result"></div>
+  </div>
+
+  <a href="index.html" class="back">← Back to Ramsey Tools</a>
+
+</main>
+
+<script>
+  // Follow the global Ramsey Tools theme
+  function loadGlobalTheme() {
+    const savedTheme = localStorage.getItem("ramseyTheme");
+
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }
+
+
+  function calculatePercentage() {
+    const percentInput = document.getElementById("percent1").value;
+    const numberInput = document.getElementById("number1").value;
+    const result = document.getElementById("result1");
+
+    if (percentInput === "" || numberInput === "") {
+      result.textContent = "Please enter both values.";
+      result.style.display = "block";
+      return;
+    }
+
+    const percent = Number(percentInput);
+    const number = Number(numberInput);
+
+    const answer = (percent / 100) * number;
+
+    result.textContent = `${percent}% of ${number} = ${answer}`;
+    result.style.display = "block";
+  }
+
+
+  function findPercentage() {
+    const partInput = document.getElementById("part").value;
+    const wholeInput = document.getElementById("whole").value;
+    const result = document.getElementById("result2");
+
+    if (partInput === "" || wholeInput === "") {
+      result.textContent = "Please enter both values.";
+      result.style.display = "block";
+      return;
+    }
+
+    const part = Number(partInput);
+    const whole = Number(wholeInput);
+
+    if (whole === 0) {
+      result.textContent = "The whole number cannot be zero.";
+      result.style.display = "block";
+      return;
+    }
+
+    const answer = (part / whole) * 100;
+
+    result.textContent = `${part} is ${answer}% of ${whole}`;
+    result.style.display = "block";
+  }
+
+
+  function calculateIncrease() {
+    const numberInput = document.getElementById("increaseNumber").value;
+    const percentInput = document.getElementById("increasePercent").value;
+    const result = document.getElementById("result3");
+
+    if (numberInput === "" || percentInput === "") {
+      result.textContent = "Please enter both values.";
+      result.style.display = "block";
+      return;
+    }
+
+    const number = Number(numberInput);
+    const percent = Number(percentInput);
+
+    const increase = (percent / 100) * number;
+    const answer = number + increase;
+
+    result.textContent = `${number} increased by ${percent}% = ${answer}`;
+    result.style.display = "block";
+  }
+
+
+  function calculateDecrease() {
+    const numberInput = document.getElementById("decreaseNumber").value;
+    const percentInput = document.getElementById("decreasePercent").value;
+    const result = document.getElementById("result4");
+
+    if (numberInput === "" || percentInput === "") {
+      result.textContent = "Please enter both values.";
+      result.style.display = "block";
+      return;
+    }
+
+    const number = Number(numberInput);
+    const percent = Number(percentInput);
+
+    const decrease = (percent / 100) * number;
+    const answer = number - decrease;
+
+    result.textContent = `${number} decreased by ${percent}% = ${answer}`;
+    result.style.display = "block";
+  }
+
+
+  // Load the same theme used by the main Ramsey Tools page
+  loadGlobalTheme();
+</script>
+<script src="theme.js"></script>
+</body>
+</html>

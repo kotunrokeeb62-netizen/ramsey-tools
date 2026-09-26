@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ramsey Expense Tracker</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 22px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 27px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 14px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 550px;
+      margin: 25px auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .summary-box {
+      padding: 15px 8px;
+      border-radius: 12px;
+      text-align: center;
+      background: #f1f5ff;
+    }
+
+    .summary-box h3 {
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .summary-box p {
+      font-size: 15px;
+      font-weight: bold;
+      color: #2563eb;
+      word-break: break-word;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 13px;
+      background: white;
+      color: #222;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .transaction {
+      border-bottom: 1px solid #eee;
+      padding: 14px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .transaction:last-child {
+      border-bottom: none;
+    }
+
+    .transaction-info {
+      min-width: 0;
+    }
+
+    .transaction-info strong {
+      display: block;
+      font-size: 15px;
+      word-break: break-word;
+    }
+
+    .transaction-info small {
+      color: #777;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .amount {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .income {
+      color: #16a34a;
+    }
+
+    .expense {
+      color: #dc2626;
+    }
+
+    .delete-btn {
+      width: auto;
+      padding: 8px 10px;
+      background: #dc2626;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 15px 0;
+    }
+
+    .clear-btn {
+      background: #dc2626;
+      margin-top: 12px;
+    }
+
+    .error {
+      color: #dc2626;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin: 20px 0;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* DARK MODE */
+
+    body.dark {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    body.dark .card {
+      background: #1f2937;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    body.dark .summary-box {
+      background: #273449;
+    }
+
+    body.dark input,
+    body.dark select {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #374151;
+    }
+
+    body.dark .transaction {
+      border-color: #374151;
+    }
+
+    body.dark .transaction-info small {
+      color: #9ca3af;
+    }
+
+    body.dark .empty {
+      color: #9ca3af;
+    }
+
+    body.dark .back {
+      color: #60a5fa;
+    }
+
+    body.dark h2 {
+      color: #60a5fa !important;
+    }
+
+    @media (max-width: 400px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>💰 Ramsey Expense Tracker</h1>
+
+    <p>Track your income and spending</p>
+
+  </header>
+
+  <main class="container">
+
+    <!-- SUMMARY -->
+
+    <div class="card summary">
+
+      <div class="summary-box">
+
+        <h3>Income</h3>
+
+        <p id="totalIncome">₦0.00</p>
+
+      </div>
+
+      <div class="summary-box">
+
+        <h3>Expenses</h3>
+
+        <p id="totalExpenses">₦0.00</p>
+
+      </div>
+
+      <div class="summary-box">
+
+        <h3>Balance</h3>
+
+        <p id="balance">₦0.00</p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ADD TRANSACTION -->
+
+    <div class="card">
+
+      <label for="type">
+        Transaction Type
+      </label>
+
+      <select id="type">
+
+        <option value="expense">
+          Expense
+        </option>
+
+        <option value="income">
+          Income
+        </option>
+
+      </select>
+
+
+      <label for="description">
+        Description
+      </label>
+
+      <input
+        type="text"
+        id="description"
+        placeholder="e.g. Food, Salary, Transport"
+      >
+
+
+      <label for="amount">
+        Amount (₦)
+      </label>
+
+      <input
+        type="number"
+        id="amount"
+        placeholder="e.g. 5000"
+        min="0"
+        step="0.01"
+      >
+
+
+      <button onclick="addTransaction()">
+        Add Transaction
+      </button>
+
+      <p id="error" class="error"></p>
+
+    </div>
+
+
+    <!-- TRANSACTIONS -->
+
+    <div class="card">
+
+      <h2 style="color:#2563eb; margin-bottom:10px;">
+        Transactions
+      </h2>
+
+      <div id="transactions">
+
+        <p class="empty">
+          No transactions yet.
+        </p>
+
+      </div>
+
+      <button
+        class="clear-btn"
+        onclick="clearAll()"
+      >
+        Clear All Transactions
+      </button>
+
+    </div>
+
+
+    <a href="index.html" class="back">
+      ← Back to Ramsey Tools
+    </a>
+
+  </main>
+
+
+  <script>
+
+    let transactions =
+      JSON.parse(
+        localStorage.getItem("ramseyTransactions")
+      ) || [];
+
+
+    /* SAVE TRANSACTIONS */
+
+    function saveTransactions() {
+
+      localStorage.setItem(
+        "ramseyTransactions",
+        JSON.stringify(transactions)
+      );
+
+    }
+
+
+    /* FORMAT MONEY */
+
+    function formatMoney(amount) {
+
+      return "₦" + amount.toLocaleString("en-NG", {
+
+        minimumFractionDigits: 2,
+
+        maximumFractionDigits: 2
+
+      });
+
+    }
+
+
+    /* GLOBAL THEME */
+
+    function loadGlobalTheme() {
+
+      const savedTheme =
+        localStorage.getItem("ramseyTheme");
+
+      if (savedTheme === "dark") {
+
+        document.body.classList.add("dark");
+
+      }
+
+    }
+
+
+    /* ADD TRANSACTION */
+
+    function addTransaction() {
+
+      const type =
+        document.getElementById("type").value;
+
+      const description =
+        document
+          .getElementById("description")
+          .value
+          .trim();
+
+      const amountInput =
+        document.getElementById("amount").value;
+
+      const amount =
+        Number(amountInput);
+
+      const error =
+        document.getElementById("error");
+
+      error.textContent = "";
+
+
+      if (!description) {
+
+        error.textContent =
+          "Please enter a description.";
+
+        return;
+
+      }
+
+
+      if (
+        !amountInput ||
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ) {
+
+        error.textContent =
+          "Please enter a valid amount.";
+
+        return;
+
+      }
+
+
+      const transaction = {
+
+        id: Date.now(),
+
+        type: type,
+
+        description: description,
+
+        amount: amount,
+
+        date: new Date()
+          .toLocaleDateString("en-NG")
+
+      };
+
+
+      transactions.unshift(transaction);
+
+      saveTransactions();
+
+
+      document.getElementById(
+        "description"
+      ).value = "";
+
+      document.getElementById(
+        "amount"
+      ).value = "";
+
+
+      renderTransactions();
+
+    }
+
+
+    /* DELETE TRANSACTION */
+
+    function deleteTransaction(id) {
+
+      transactions =
+        transactions.filter(
+          transaction =>
+            transaction.id !== id
+        );
+
+      saveTransactions();
+
+      renderTransactions();
+
+    }
+
+
+    /* CLEAR ALL */
+
+    function clearAll() {
+
+      if (transactions.length === 0) {
+
+        return;
+
+      }
+
+
+      const confirmed =
+        confirm(
+          "Delete all transactions?"
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      transactions = [];
+
+      saveTransactions();
+
+      renderTransactions();
+
+    }
+
+
+    /* DISPLAY TRANSACTIONS */
+
+    function renderTransactions() {
+
+      const container =
+        document.getElementById(
+          "transactions"
+        );
+
+
+      let totalIncome = 0;
+
+      let totalExpenses = 0;
+
+
+      transactions.forEach(
+        transaction => {
+
+          if (
+            transaction.type === "income"
+          ) {
+
+            totalIncome +=
+              transaction.amount;
+
+          } else {
+
+            totalExpenses +=
+              transaction.amount;
+
+          }
+
+        }
+      );
+
+
+      const balance =
+        totalIncome - totalExpenses;
+
+
+      document.getElementById(
+        "totalIncome"
+      ).textContent =
+        formatMoney(totalIncome);
+
+
+      document.getElementById(
+        "totalExpenses"
+      ).textContent =
+        formatMoney(totalExpenses);
+
+
+      document.getElementById(
+        "balance"
+      ).textContent =
+        formatMoney(balance);
+
+
+      if (transactions.length === 0) {
+
+        container.innerHTML =
+          '<p class="empty">No transactions yet.</p>';
+
+        return;
+
+      }
+
+
+      container.innerHTML = "";
+
+
+      transactions.forEach(
+        transaction => {
+
+          const item =
+            document.createElement("div");
+
+          item.className =
+            "transaction";
+
+
+          const info =
+            document.createElement("div");
+
+          info.className =
+            "transaction-info";
+
+
+          const title =
+            document.createElement("strong");
+
+          title.textContent =
+            transaction.description;
+
+
+          const date =
+            document.createElement("small");
+
+          date.textContent =
+            transaction.date;
+
+
+          info.appendChild(title);
+
+          info.appendChild(date);
+
+
+          const right =
+            document.createElement("div");
+
+          right.style.textAlign =
+            "right";
+
+
+          const amount =
+            document.createElement("div");
+
+          amount.className =
+            "amount " +
+            (
+              transaction.type === "income"
+                ? "income"
+                : "expense"
+            );
+
+
+          amount.textContent =
+            (
+              transaction.type === "income"
+                ? "+"
+                : "-"
+            ) +
+            formatMoney(
+              transaction.amount
+            );
+
+
+          const deleteButton =
+            document.createElement("button");
+
+          deleteButton.className =
+            "delete-btn";
+
+          deleteButton.textContent =
+            "Delete";
+
+
+          deleteButton.onclick =
+            () =>
+              deleteTransaction(
+                transaction.id
+              );
+
+
+          right.appendChild(amount);
+
+          right.appendChild(deleteButton);
+
+
+          item.appendChild(info);
+
+          item.appendChild(right);
+
+
+          container.appendChild(item);
+
+        }
+      );
+
+    }
+
+
+    /* START */
+
+    loadGlobalTheme();
+
+    renderTransactions();
+
+  </script>
+
+</body>
+</html>
