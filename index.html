@@ -6,23 +6,15 @@
 
   <title>Ramsey Tools</title>
 
-  <!-- GOOGLE TAG MANAGER -->
+  <!-- GOOGLE ANALYTICS -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0DVPNL6SCG"></script>
   <script>
-    (function(w,d,s,l,i){
-      w[l]=w[l]||[];
-      w[l].push({
-        'gtm.start': new Date().getTime(),
-        event:'gtm.js'
-      });
-      var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),
-      dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;
-      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5QTXJ5SB');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0DVPNL6SCG');
   </script>
-  <!-- END GOOGLE TAG MANAGER -->
+  <!-- END GOOGLE ANALYTICS -->
 
   <style>
     * {
@@ -158,19 +150,9 @@
 
 <body>
 
-  <!-- GOOGLE TAG MANAGER (NOSCRIPT) -->
-  <noscript>
-    <iframe
-      src="https://www.googletagmanager.com/ns.html?id=GTM-5QTXJ5SB"
-      height="0"
-      width="0"
-      style="display:none;visibility:hidden">
-    </iframe>
-  </noscript>
-  <!-- END GOOGLE TAG MANAGER -->
-
   <header>
 
+    <!-- GENERAL THEME CONTROL -->
     <button
       id="themeButton"
       class="theme-button"
@@ -189,42 +171,49 @@
 
     <div class="tools-grid">
 
+      <!-- CALCULATOR -->
       <div class="tool-card" onclick="openCalculator()">
         <div class="tool-icon">🧮</div>
         <h2>Calculator</h2>
         <p>Fast & scientific calculator</p>
       </div>
 
+      <!-- AGE CALCULATOR -->
       <div class="tool-card" onclick="openAgeCalculator()">
         <div class="tool-icon">🎂</div>
         <h2>Age Calculator</h2>
         <p>Calculate your exact age</p>
       </div>
 
+      <!-- PERCENTAGE -->
       <div class="tool-card" onclick="openPercentage()">
         <div class="tool-icon">📊</div>
         <h2>Percentage</h2>
         <p>Calculate percentages easily</p>
       </div>
 
+      <!-- EXPENSE TRACKER -->
       <div class="tool-card" onclick="openExpenseTracker()">
         <div class="tool-icon">💰</div>
         <h2>Expense Tracker</h2>
         <p>Track your spending</p>
       </div>
 
+      <!-- TO-DO LIST -->
       <div class="tool-card" onclick="openTodo()">
         <div class="tool-icon">📝</div>
         <h2>To-Do List</h2>
         <p>Manage your daily tasks</p>
       </div>
 
+      <!-- PASSWORD GENERATOR -->
       <div class="tool-card" onclick="openPasswordGenerator()">
         <div class="tool-icon">🔐</div>
         <h2>Password Generator</h2>
         <p>Create strong passwords</p>
       </div>
 
+      <!-- UNIT CONVERTER -->
       <div class="tool-card" onclick="openUnitConverter()">
         <div class="tool-icon">📏</div>
         <h2>Unit Converter</h2>
