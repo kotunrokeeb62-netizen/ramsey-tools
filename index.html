@@ -6,6 +6,24 @@
 
   <title>Ramsey Tools</title>
 
+  <!-- GOOGLE TAG MANAGER -->
+  <script>
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event:'gtm.js'
+      });
+      var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),
+      dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5QTXJ5SB');
+  </script>
+  <!-- END GOOGLE TAG MANAGER -->
+
   <style>
     * {
       box-sizing: border-box;
@@ -39,8 +57,6 @@
       opacity: 0.9;
     }
 
-    /* THEME BUTTON */
-
     .theme-button {
       position: absolute;
       right: 15px;
@@ -49,7 +65,7 @@
       height: 45px;
       border: none;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255,255,255,0.2);
       color: white;
       font-size: 22px;
       cursor: pointer;
@@ -76,7 +92,7 @@
       border-radius: 16px;
       padding: 22px 15px;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
     }
@@ -86,7 +102,7 @@
     }
 
     .tool-card:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
     }
 
     .tool-icon {
@@ -121,7 +137,7 @@
     body.dark .tool-card {
       background: #1f2937;
       color: #f9fafb;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     body.dark .tool-card p {
@@ -142,9 +158,19 @@
 
 <body>
 
+  <!-- GOOGLE TAG MANAGER (NOSCRIPT) -->
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-5QTXJ5SB"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden">
+    </iframe>
+  </noscript>
+  <!-- END GOOGLE TAG MANAGER -->
+
   <header>
 
-    <!-- GENERAL THEME CONTROL -->
     <button
       id="themeButton"
       class="theme-button"
@@ -159,157 +185,75 @@
 
   </header>
 
-
   <main class="container">
 
     <div class="tools-grid">
 
-      <!-- CALCULATOR -->
-
-      <div
-        class="tool-card"
-        onclick="openCalculator()"
-      >
-
+      <div class="tool-card" onclick="openCalculator()">
         <div class="tool-icon">🧮</div>
-
         <h2>Calculator</h2>
-
         <p>Fast & scientific calculator</p>
-
       </div>
 
-
-      <!-- AGE CALCULATOR -->
-
-      <div
-        class="tool-card"
-        onclick="openAgeCalculator()"
-      >
-
+      <div class="tool-card" onclick="openAgeCalculator()">
         <div class="tool-icon">🎂</div>
-
         <h2>Age Calculator</h2>
-
         <p>Calculate your exact age</p>
-
       </div>
 
-
-      <!-- PERCENTAGE -->
-
-      <div
-        class="tool-card"
-        onclick="openPercentage()"
-      >
-
+      <div class="tool-card" onclick="openPercentage()">
         <div class="tool-icon">📊</div>
-
         <h2>Percentage</h2>
-
         <p>Calculate percentages easily</p>
-
       </div>
 
-
-      <!-- EXPENSE TRACKER -->
-
-      <div
-        class="tool-card"
-        onclick="openExpenseTracker()"
-      >
-
+      <div class="tool-card" onclick="openExpenseTracker()">
         <div class="tool-icon">💰</div>
-
         <h2>Expense Tracker</h2>
-
         <p>Track your spending</p>
-
       </div>
 
-
-      <!-- TO-DO LIST -->
-
-      <div
-        class="tool-card"
-        onclick="openTodo()"
-      >
-
+      <div class="tool-card" onclick="openTodo()">
         <div class="tool-icon">📝</div>
-
         <h2>To-Do List</h2>
-
         <p>Manage your daily tasks</p>
-
       </div>
 
-
-      <!-- PASSWORD GENERATOR -->
-
-      <div
-        class="tool-card"
-        onclick="openPasswordGenerator()"
-      >
-
+      <div class="tool-card" onclick="openPasswordGenerator()">
         <div class="tool-icon">🔐</div>
-
         <h2>Password Generator</h2>
-
         <p>Create strong passwords</p>
-
       </div>
 
-
-      <!-- UNIT CONVERTER -->
-
-      <div
-        class="tool-card"
-        onclick="openUnitConverter()"
-      >
-
+      <div class="tool-card" onclick="openUnitConverter()">
         <div class="tool-icon">📏</div>
-
         <h2>Unit Converter</h2>
-
         <p>Convert common units</p>
-
       </div>
 
     </div>
 
   </main>
 
-
   <footer>
     © 2026 Ramsey Tools
   </footer>
 
-
   <script>
 
-    /* =========================
-       GENERAL THEME CONTROL
-       ========================= */
+    /* GENERAL THEME CONTROL */
 
     function updateThemeButton() {
-
       const button = document.getElementById("themeButton");
 
       if (document.body.classList.contains("dark")) {
-
         button.textContent = "☀️";
-
       } else {
-
         button.textContent = "🌙";
-
       }
-
     }
 
-
     function toggleTheme() {
-
       document.body.classList.toggle("dark");
 
       const isDark =
@@ -321,88 +265,50 @@
       );
 
       updateThemeButton();
-
     }
 
-
     function loadTheme() {
-
       const savedTheme =
         localStorage.getItem("ramseyTheme");
 
       if (savedTheme === "dark") {
-
         document.body.classList.add("dark");
-
       }
 
       updateThemeButton();
-
     }
-
-
-    /* LOAD SAVED THEME */
 
     loadTheme();
 
-
-    /* =========================
-       TOOL LINKS
-       ========================= */
+    /* TOOL LINKS */
 
     function openCalculator() {
-
       window.location.href =
         "https://kotunrokeeb62-netizen.github.io/ramsey-calculator/";
-
     }
-
 
     function openAgeCalculator() {
-
-      window.location.href =
-        "age.html";
-
+      window.location.href = "age.html";
     }
-
 
     function openPercentage() {
-
-      window.location.href =
-        "percentage.html";
-
+      window.location.href = "percentage.html";
     }
-
 
     function openExpenseTracker() {
-
-      window.location.href =
-        "expense.html";
-
+      window.location.href = "expense.html";
     }
-
 
     function openTodo() {
-
-      window.location.href =
-        "todo.html";
-
+      window.location.href = "todo.html";
     }
-
 
     function openPasswordGenerator() {
-
-      window.location.href =
-        "password.html";
-
+      window.location.href = "password.html";
     }
 
-
     function openUnitConverter() {
-
-      window.location.href =
-        "unit.html";
-
+      window.location.href = "unit.html";
     }
 
   </script>
